@@ -36,7 +36,7 @@ use ManiaLive\Utilities\Logger;
  * This will also provide function shortcuts for registering chat commands,
  * dependency handling and the possibility of Plugin communication.
  */
-abstract class Plugin extends ServerAdapter implements ThreadListener, TickListener, AppListener, PlayerListener, PluginListener
+abstract class Plugin extends ServerAdapter implements TickListener, AppListener, PlayerListener, PluginListener
 {
 	/** @var string */
 	private $id;
