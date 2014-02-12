@@ -27,11 +27,6 @@ class Config extends \ManiaLib\Utils\Singleton
 	public $debug = false;
 	public $verbose = true;
 	public $enableToggleGUI = true;
-
-	function __construct()
-	{
-		$this->logsPath = APP_ROOT.'logs';
-	}
 }
 
 ?>
