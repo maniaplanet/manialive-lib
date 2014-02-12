@@ -70,7 +70,7 @@ abstract class Plugin extends ServerAdapter implements TickListener, AppListener
 		$this->dependencies = array();
 		$this->methods = array();
 
-		$this->id = get_class($this);
+		$this->id = "\\".get_class($this);
 		$this->setVersion(1);
 
 		$config = \ManiaLive\DedicatedApi\Config::getInstance();
@@ -453,7 +453,6 @@ abstract class Plugin extends ServerAdapter implements TickListener, AppListener
 		$this->disableApplicationEvents();
 		$this->disableDedicatedEvents();
 		$this->disableStorageEvents();
-		$this->disableThreadingEvents();
 		$this->disableTickerEvent();
 		$this->disablePluginEvents();
 
@@ -467,13 +466,6 @@ abstract class Plugin extends ServerAdapter implements TickListener, AppListener
 	function onPreLoop() {}
 	function onPostLoop() {}
 	function onTerminate() {}
-
-	// threading events
-	function onThreadDies($threadId) {}
-	function onThreadRestart($threadId) {}
-	function onThreadStart($threadId) {}
-	function onThreadTimesOut($threadId) {}
-	function onThreadKilled($threadId) {}
 
 	// ticker event
 	function onTick() {}
