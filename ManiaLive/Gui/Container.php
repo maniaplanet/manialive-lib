@@ -84,6 +84,17 @@ abstract class Container extends \ManiaLib\Gui\Component
 		}
 		$this->components = array();
 	}
+	
+	function destroyComponents()
+	{
+		foreach($this->components as $component)
+		{
+			if($component instanceof Containable)
+				$component->onIsRemoved($this);
+			Utils::destroy($component);
+		}
+		$this->components = array();
+	}
 }
 
 ?>
