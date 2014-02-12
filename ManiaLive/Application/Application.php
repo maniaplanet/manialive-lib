@@ -43,7 +43,7 @@ class Application extends \ManiaLib\Utils\Singleton
 
 			// load configuration file
 			$loader = Loader::getInstance();
-			$loader->setINIConfigFilename(APP_ROOT.'config'.DIRECTORY_SEPARATOR.$configFile);
+			$loader->setINIConfigFilename(\ManiaLib\Utils\Path::getInstance()->getConfig(true).$configFile);
 			$loader->load();
 
 			// load configureation from the command line ...

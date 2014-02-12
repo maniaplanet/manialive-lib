@@ -11,6 +11,7 @@
 
 namespace ManiaLive\Application;
 
+use ManiaLib\Utils\Path;
 use ManiaLive\Utilities\Logger;
 use ManiaLive\Utilities\Console;
 
@@ -115,7 +116,7 @@ abstract class ErrorHandling
 
 		// write into global error log if config says so
 		if(\ManiaLive\Config\Config::getInstance()->globalErrorLog)
-			error_log($log, 3, APP_ROOT.'logs'.DIRECTORY_SEPARATOR.'GlobalErrorLog.txt');
+			error_log($log, 3, Path::getInstance()->getLog(true).'GlobalErrorLog.txt');
 	}
 
 	/**
@@ -130,7 +131,7 @@ abstract class ErrorHandling
 		$message .= PHP_EOL;
 
 		// log and display error, then die!
-		error_log($message, 3, APP_ROOT.'logs'.DIRECTORY_SEPARATOR.'ErrorLog_'.getmypid().'.txt');
+		error_log($message, 3, Path::getInstance()->getLog(true).'ErrorLog_'.getmypid().'.txt');
 
 		die($message);
 	}
