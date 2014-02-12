@@ -11,6 +11,8 @@
 
 namespace ManiaLive\Utilities;
 
+use ManiaLib\Utils\Path;
+
 class Logger
 {
 	private static $logs = array();
@@ -39,10 +41,11 @@ class Logger
 	{
 		// if path does not exist ...
 		$config = \ManiaLive\Config\Config::getInstance();
-		if(!is_dir($config->logsPath))
-			mkdir($config->logsPath, '0777', true);
-
-		$this->path = $config->logsPath.'/'.($config->logsPrefix ? $config->logsPrefix.'-' : '').$name.'.txt';
+		$path = \ManiaLib\Utils\Path::getInstance();
+		if(!is_dir($path->getLog(true)))
+			mkdir($path->getLog(true), '0777', true);
+		
+		$this->path = $path->getLog(true).'/'.($config->logsPrefix ? $config->logsPrefix.'-' : '').$name.'.txt';
 		$this->enabled = true;
 	}
 
@@ -111,19 +114,19 @@ class Logger
 		{
 			$config = \ManiaLive\Config\Config::getInstance();
 
-			if(!is_dir($config->logsPath))
+			if(!is_dir(Path::getInstance()->getLog(true)))
 			{
-				if(mkdir($config->logsPath, '0777', true))
+				if(mkdir(Path::getInstance()->getLog(true), '0777', true))
 				{
 					self::$loaded = true;
-					self::$staticPath = $config->logsPath.'/';
+					self::$staticPath = Path::getInstance()->getLog(true).DIRECTORY_SEPARATOR;
 					self::$staticPrefix = $config->logsPrefix ? $config->logsPrefix.'-' : '';
 				}
 			}
 			else
 			{
 				self::$loaded = true;
-				self::$staticPath = $config->logsPath.'/';
+				self::$staticPath = Path::getInstance()->getLog(true).DIRECTORY_SEPARATOR;
 				self::$staticPrefix = $config->logsPrefix ? $config->logsPrefix.'-' : '';
 			}
 		}
