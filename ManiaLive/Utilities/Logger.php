@@ -113,22 +113,14 @@ class Logger
 		if(!self::$loaded)
 		{
 			$config = \ManiaLive\Config\Config::getInstance();
-
-			if(!is_dir(Path::getInstance()->getLog(true)))
+			$path = Path::getInstance()->getLog(true).DIRECTORY_SEPARATOR;
+			if(!is_dir($path) && !mkdir($path, '0777', true))
 			{
-				if(mkdir(Path::getInstance()->getLog(true), '0777', true))
-				{
-					self::$loaded = true;
-					self::$staticPath = Path::getInstance()->getLog(true).DIRECTORY_SEPARATOR;
-					self::$staticPrefix = $config->logsPrefix ? $config->logsPrefix.'-' : '';
-				}
+				throw new \ManiaLive\Application\FatalException(sprintf("The log repository (%s) does not exists and can't be created", Path::getInstance()->getLog(true)));
 			}
-			else
-			{
-				self::$loaded = true;
-				self::$staticPath = Path::getInstance()->getLog(true).DIRECTORY_SEPARATOR;
-				self::$staticPrefix = $config->logsPrefix ? $config->logsPrefix.'-' : '';
-			}
+			self::$loaded = true;
+			self::$staticPath = $path;
+			self::$staticPrefix = $config->logsPrefix ? $config->logsPrefix.'-' : '';
 		}
 		return!empty(self::$staticPath);
 	}
