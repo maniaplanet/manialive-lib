@@ -60,9 +60,9 @@ abstract class Plugin extends ServerAdapter implements TickListener, AppListener
 	private $chatCommands;
 	/** @var \ManiaLive\Data\Storage */
 	protected $storage;
-	/** @var \DedicatedApi\Connection */
+	/** @var Connection */
 	protected $connection;
-	/** @var \ManiaLive\Database\Connection */
+	/** @var DbConnection */
 	protected $db;
 
 	final function __construct()
