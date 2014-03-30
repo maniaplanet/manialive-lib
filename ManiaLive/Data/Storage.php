@@ -137,9 +137,11 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		try
 		{
 			$this->maps = $this->connection->getMapList(-1, 0);
-			$this->nextMap = $this->maps[$this->connection->getNextMapIndex()];
 			$this->currentMap = $this->connection->getCurrentMapInfo();
-			Console::printlnFormatted('Current map: '.Formatting::stripStyles($this->currentMap->name));
+			if(isset($this->maps[$this->connection->getNextMapIndex()]))
+			    $this->nextMap = $this->maps[$this->connection->getNextMapIndex()];
+			else
+			    $this->nextMap = null;
 		}
 		catch(\Exception $e)
 		{
