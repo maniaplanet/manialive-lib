@@ -326,8 +326,8 @@ final class GuiHandler extends \ManiaLib\Utils\Singleton implements AppListener,
 		// First loop to prepare player stacks
 		foreach($this->nextWindows as $windowId => $visibilityByLogin)
 		{
-			$showing = array_diff(array_keys(array_filter($visibilityByLogin)), $playersHidingGui);
-			$hiding = array_diff(array_keys($visibilityByLogin), $showing, $playersHidingGui);
+			$showing = array_intersect(array_diff(array_keys(array_filter($visibilityByLogin)), $playersHidingGui), $playersOnServer);
+			$hiding = array_intersect(array_diff(array_keys($visibilityByLogin), $showing, $playersHidingGui), $playersOnServer);
 			if(count($showing))
 			{
 				sort($showing);
