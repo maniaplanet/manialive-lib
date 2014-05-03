@@ -21,7 +21,7 @@ class EchoHandler extends \ManiaLib\Utils\Singleton implements Listener
 	private $connection;
 	/** @var string */
 	private $identifier;
-	
+
 	protected function __construct()
 	{
 		$this->identifier = 'ManiaLive '.\ManiaLive\Application\VERSION;
@@ -35,13 +35,13 @@ class EchoHandler extends \ManiaLib\Utils\Singleton implements Listener
 			);
 		Dispatcher::register(Event::getClass(), $this, Event::ON_ECHO);
 	}
-	
+
 	public function onEcho($internal, $public)
 	{
 		$call = explode(':', substr($internal, 1), 2);
 		if(isset($call[1]) && $call[1] != $this->identifier)
 			return;
-		
+
 		if(substr($internal, 0, 1) == '?')
 		{
 			switch($call[0])
@@ -55,7 +55,7 @@ class EchoHandler extends \ManiaLib\Utils\Singleton implements Listener
 			}
 		}
 	}
-	
+
 	public function onBeginMap($map, $warmUp, $matchContinuation) {}
 	public function onBeginMatch() {}
 	public function onBeginRound() {}
@@ -80,6 +80,8 @@ class EchoHandler extends \ManiaLib\Utils\Singleton implements Listener
 	public function onTunnelDataReceived($playerUid, $login, $data) {}
 	public function onVoteUpdated($stateName, $login, $cmdName, $cmdParam) {}
 	public function onPlayerAlliesChanged($login) {}
+	public function onLoadData($type, $id) {}
+	public function onSaveData($type, $id) {}
 }
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * ManiaLive - TrackMania dedicated server manager in PHP
- * 
+ *
  * @copyright   Copyright (c) 2009-2011 NADEO (http://www.nadeo.com)
  * @license     http://www.gnu.org/licenses/lgpl.html LGPL License 3
  * @version     $Revision$:
@@ -21,32 +21,32 @@ use ManiaLive\DedicatedApi\Callback\Event as ServerEvent;
 final class ActionHandler extends \ManiaLib\Utils\Singleton implements ServerListener
 {
 	const NONE = 0xFFFFFFFF;
-	
+
 	protected $callbacks = array();
 	protected $lastAction = 0;
-	
+
 	protected function __construct()
 	{
 		Dispatcher::register(ServerEvent::getClass(), $this, ServerEvent::ON_PLAYER_MANIALINK_PAGE_ANSWER);
 	}
-	
+
 	function createAction($callback)
 	{
 		if(!is_array($callback) || !is_callable($callback))
 			throw new \InvalidArgumentException('Invalid callback');
-		
+
 		$args = func_get_args();
 		array_shift($args);
 		$callback = array($callback, $args);
-		
+
 		$action = array_search($callback, $this->callbacks, true);
 		if($action !== false)
 			return $action;
-		
+
 		$this->callbacks[++$this->lastAction] = $callback;
 		return $this->lastAction;
 	}
-	
+
 	// TODO this should be done automatically but PHP has no refcount function
 	// nor weak references yet... so please don't forget to call this method
 	// to avoid memory leaks !!!!
@@ -54,7 +54,7 @@ final class ActionHandler extends \ManiaLib\Utils\Singleton implements ServerLis
 	{
 		unset($this->callbacks[$action]);
 	}
-	
+
 	function onPlayerManialinkPageAnswer($playerUid, $login, $answer, array $entries)
 	{
 		if(isset($this->callbacks[$answer]))
@@ -71,7 +71,7 @@ final class ActionHandler extends \ManiaLib\Utils\Singleton implements ServerLis
 			call_user_func_array($this->callbacks[$answer][0], $params);
 		}
 	}
-	
+
 	function onPlayerConnect($login, $isSpectator) {}
 	function onPlayerDisconnect($login, $disconnectionReason) {}
 	function onPlayerChat($playerUid, $login, $text, $isRegistredCmd) {}
@@ -96,6 +96,8 @@ final class ActionHandler extends \ManiaLib\Utils\Singleton implements ServerLis
 	function onVoteUpdated($stateName, $login, $cmdName, $cmdParam) {}
 	function onModeScriptCallback($param1, $param2) {}
 	function onPlayerAlliesChanged($login) {}
+	function onLoadData($type, $id) {}
+	function onSaveData($type, $id) {}
 }
 
 ?>

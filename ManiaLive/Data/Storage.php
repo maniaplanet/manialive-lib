@@ -173,20 +173,9 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		if($this->currentVote instanceof Vote && $this->currentVote->status != Vote::STATE_NEW) $this->currentVote = null;
 	}
 
-	function onRun()
-	{
-
-	}
-
-	function onPreLoop()
-	{
-
-	}
-
-	function onTerminate()
-	{
-
-	}
+	function onRun() {}
+	function onPreLoop() {}
+	function onTerminate() {}
 
 	function onPlayerConnect($login, $isSpectator)
 	{
@@ -218,20 +207,9 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		else if(isset($this->spectators[$login])) $this->spectators[$login]->isConnected = false;
 	}
 
-	function onPlayerChat($playerUid, $login, $text, $isRegistredCmd)
-	{
-
-	}
-
-	function onPlayerManialinkPageAnswer($playerUid, $login, $answer, array $entries)
-	{
-
-	}
-
-	function onEcho($internal, $public)
-	{
-
-	}
+	function onPlayerChat($playerUid, $login, $text, $isRegistredCmd) {}
+	function onPlayerManialinkPageAnswer($playerUid, $login, $answer, array $entries) {}
+	function onEcho($internal, $public) {}
 
 	function onServerStart()
 	{
@@ -247,15 +225,8 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		}
 	}
 
-	function onServerStop()
-	{
-
-	}
-
-	function onBeginMatch()
-	{
-
-	}
+	function onServerStop() {}
+	function onBeginMatch() {}
 
 	function onEndMatch($rankings, $winnerTeamOrMap)
 	{
@@ -304,10 +275,7 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		}
 	}
 
-	function onBeginRound()
-	{
-
-	}
+	function onBeginRound() {}
 
 	function onEndRound()
 	{
@@ -467,20 +435,9 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		}
 	}
 
-	function onPlayerIncoherence($playerUid, $login)
-	{
-
-	}
-
-	function onBillUpdated($billId, $state, $stateName, $transactionId)
-	{
-
-	}
-
-	function onTunnelDataReceived($playerUid, $login, $data)
-	{
-
-	}
+	function onPlayerIncoherence($playerUid, $login) {}
+	function onBillUpdated($billId, $state, $stateName, $transactionId) {}
+	function onTunnelDataReceived($playerUid, $login, $data) {}
 
 	function onMapListModified($curMapIndex, $nextMapIndex, $isListModified)
 	{
@@ -552,10 +509,7 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		}
 	}
 
-	function onManualFlowControlTransition($transition)
-	{
-
-	}
+	function onManualFlowControlTransition($transition) {}
 
 	function onVoteUpdated($stateName, $login, $cmdName, $cmdParam)
 	{
@@ -566,10 +520,7 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		$this->currentVote->cmdParam = $cmdParam;
 	}
 
-	function onModeScriptCallback($param1, $param2)
-	{
-
-	}
+	function onModeScriptCallback($param1, $param2) {}
 
 	function onPlayerAlliesChanged($login)
 	{
@@ -582,6 +533,9 @@ class Storage extends \ManiaLib\Utils\Singleton implements ServerListener, AppLi
 		{
 		}
 	}
+
+	function onLoadData($type, $id) {}
+	function onSaveData($type, $id) {}
 
 	/**
 	 * Give a Player Object for the corresponding login

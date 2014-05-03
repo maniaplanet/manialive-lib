@@ -1,7 +1,7 @@
 <?php
 /**
  * ManiaLive - TrackMania dedicated server manager in PHP
- * 
+ *
  * @copyright   Copyright (c) 2009-2011 NADEO (http://www.nadeo.com)
  * @license     http://www.gnu.org/licenses/lgpl.html LGPL License 3
  * @version     $Revision$:
@@ -39,16 +39,18 @@ class Event extends \ManiaLive\Event\Event
 	const ON_MODE_SCRIPT_CALLBACK           = 0x800000;
 	const ON_MODE_SCRIPT_CALLBACK_ARRAY     = 0x800000;
 	const ON_PLAYER_ALLIES_CHANGED          = 0x1000000;
-	
+	const ON_LOAD_DATA                      = 0x2000000;
+	const ON_SAVE_DATA                      = 0x4000000;
+
 	static private $rc;
 	protected $params;
-	
+
 	function __construct($method, $params = array())
 	{
 		parent::__construct(self::getOnWhat($method));
 		$this->params = $params;
 	}
-	
+
 	function fireDo($listener)
 	{
 		$p = $this->params;
@@ -56,11 +58,11 @@ class Event extends \ManiaLive\Event\Event
 		switch($this->onWhat)
 		{
 			case self::ON_PLAYER_CONNECT: $listener->onPlayerConnect($p[0], $p[1]); break;
-			case self::ON_PLAYER_DISCONNECT: 
+			case self::ON_PLAYER_DISCONNECT:
 				if(count($p) == 1)
-					$listener->onPlayerDisconnect($p[0], ''); 
+					$listener->onPlayerDisconnect($p[0], '');
 				else
-					$listener->onPlayerDisconnect($p[0], $p[1]); 
+					$listener->onPlayerDisconnect($p[0], $p[1]);
 				break;
 			case self::ON_PLAYER_CHAT: $listener->onPlayerChat($p[0], $p[1], $p[2], $p[3]); break;
 			case self::ON_PLAYER_MANIALINK_PAGE_ANSWER: $listener->onPlayerManialinkPageAnswer($p[0], $p[1], $p[2], $p[3]); break;
@@ -97,9 +99,11 @@ class Event extends \ManiaLive\Event\Event
 			case self::ON_VOTE_UPDATED: $listener->onVoteUpdated($p[0], $p[1], $p[2], $p[3]); break;
 			case self::ON_MODE_SCRIPT_CALLBACK: $listener->onModeScriptCallback($p[0], $p[1]); break;
 			case self::ON_PLAYER_ALLIES_CHANGED: $listener->onPlayerAlliesChanged($p[0]);break;
+			case self::ON_LOAD_DATA: $listener->onLoadData($p[0], $p[1]);break;
+			case self::ON_SAVE_DATA: $listener->onSaveData($p[0], $p[1]);break;
 		}
 	}
-	
+
 	private static function getOnWhat($method)
 	{
 		$constName = 'ON_'.strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $method));
