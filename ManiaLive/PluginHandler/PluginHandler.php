@@ -35,14 +35,14 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 		Dispatcher::register(AppEvent::getClass(), $this, AppEvent::ON_INIT | AppEvent::ON_TERMINATE);
 		Dispatcher::register(ServerEvent::getClass(), $this, ServerEvent::ON_SERVER_START | ServerEvent::ON_SERVER_STOP);
 	}
-	
+
 	function load($pluginId)
 	{
 		try
 		{
 			if( !($plugin = $this->register($pluginId)) )
 				return false;
-			
+
 			$this->prepare($plugin);
 			$plugin->onReady();
 			return true;
@@ -74,7 +74,7 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 	{
 		return array_keys($this->loadedPlugins);
 	}
-	
+
 	function unload($pluginId)
 	{
 		if(isset($this->loadedPlugins[$pluginId]))
@@ -83,21 +83,21 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 				foreach($plugin->getDependencies() as $dependency)
 					if($dependency->getPluginId() == $pluginId)
 						throw new Exception('Plugin "'.$pluginId.'" cannot be unloaded. It is required by other plugins.');
-			
+
 			$this->loadedPlugins[$pluginId]->onUnload();
 			unset($this->loadedPlugins[$pluginId]);
-			
+
 			Dispatcher::dispatch(new Event(Event::ON_PLUGIN_UNLOADED, $pluginId));
 		}
 		else if(isset($this->delayedPlugins[$pluginId]))
 			unset($this->delayedPlugins[$pluginId]);
 	}
-	
+
 	private function register($pluginId)
 	{
 		if(isset($this->loadedPlugins[$pluginId]) || isset($this->delayedPlugins[$pluginId]))
 			throw new Exception('Plugin "'.$pluginId.'" cannot be loaded, maybe there is a naming conflict!');
-		
+
 		if(!class_exists($pluginId))
 		{
 			throw new Exception('Plugin "'.$pluginId.'" not found!');
@@ -114,14 +114,14 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 		$this->delayedPlugins[$pluginId] = $plugin;
 		return null;
 	}
-	
+
 	private function prepare($plugin)
 	{
 		$this->checkDependencies($plugin);
 		$plugin->onLoad();
 		Dispatcher::dispatch(new Event(Event::ON_PLUGIN_LOADED, $plugin->getId()));
 	}
-	
+
 	private function checkDependencies($plugin)
 	{
 		foreach($plugin->getDependencies() as $dependency)
@@ -174,7 +174,7 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 	{
 		if(!isset($this->loadedPlugins[$pluginId]))
 			throw new Exception('Plugin "'.$pluginId.'" which you want to call a method from, does not exist!');
-		
+
 		$plugin = $this->loadedPlugins[$pluginId];
 		array_push($methodArgs, $caller->getId());
 		$method = $plugin->getPublicMethod($pluginMethod);
@@ -201,7 +201,7 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 				$this->unload($pluginId);
 			}
 		}
-		
+
 		foreach($this->loadedPlugins as $pluginId => $plugin)
 		{
 			try
@@ -214,7 +214,7 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 				$this->unload($pluginId);
 			}
 		}
-		
+
 		foreach($this->loadedPlugins as $plugin)
 			$plugin->onReady();
 
@@ -224,13 +224,13 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 	function onRun() {}
 	function onPreLoop() {}
 	function onPostLoop() {}
-	
+
 	function onTerminate()
 	{
 		foreach($this->loadedPlugins as $pluginId => $plugin)
 			$this->unload($pluginId);
 	}
-	
+
 	function onServerStart()
 	{
 		foreach($this->delayedPlugins as $pluginId => $plugin)
@@ -247,13 +247,13 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 				ErrorHandling::processRuntimeException($e);
 			}
 		}
-		
+
 		foreach($this->delayedPlugins as $plugin)
 			$plugin->onReady();
-		
+
 		$this->delayedPlugins = array();
 	}
-	
+
 	function onServerStop()
 	{
 		foreach($this->loadedPlugins as $pluginId => $plugin)
@@ -263,7 +263,7 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 				$this->delayedPlugins[$pluginId] = $plugin;
 			}
 	}
-	
+
 	function onPlayerConnect($login, $isSpectator) {}
 	function onPlayerDisconnect($login, $disconnectionReason) {}
 	function onPlayerChat($playerUid, $login, $text, $isRegistredCmd) {}
@@ -287,6 +287,8 @@ final class PluginHandler extends \ManiaLib\Utils\Singleton implements AppListen
 	function onVoteUpdated($stateName, $login, $cmdName, $cmdParam) {}
 	function onModeScriptCallback($param1, $param2) {}
 	function onPlayerAlliesChanged($login) {}
+	function onLoadData($type, $id) {}
+	function onSaveData($type, $id) {}
 }
 
 class Exception extends \Exception {}

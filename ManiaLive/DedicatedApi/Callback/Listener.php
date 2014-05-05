@@ -1,7 +1,7 @@
 <?php
 /**
  * ManiaLive - TrackMania dedicated server manager in PHP
- * 
+ *
  * @copyright   Copyright (c) 2009-2011 NADEO (http://www.nadeo.com)
  * @license     http://www.gnu.org/licenses/lgpl.html LGPL License 3
  * @version     $Revision$:
@@ -74,7 +74,7 @@ interface Listener extends \ManiaLive\Event\Listener
 	 *	int NbrLapsFinished;
 	 *	double LadderScore;
 	 * ]
-	 * } 
+	 * }
 	 * @param SPlayerRanking[] $rankings
 	 * @param int|SMapInfo $winnerTeamOrMap Winner team if API version >= 2012-06-19, else the map
 	 */
@@ -131,7 +131,7 @@ interface Listener extends \ManiaLive\Event\Listener
 	 * @param int $playerUid
 	 * @param string $login
 	*/
-	function onPlayerIncoherence($playerUid, $login); 
+	function onPlayerIncoherence($playerUid, $login);
 	/**
 	 * Method called when a bill is updated
 	 * @param int $billId
@@ -146,14 +146,14 @@ interface Listener extends \ManiaLive\Event\Listener
 	 * @param string $login
 	 * @param base64 $data
 	*/
-	function onTunnelDataReceived($playerUid, $login, $data); 
+	function onTunnelDataReceived($playerUid, $login, $data);
 	/**
 	 * Method called when the map list is modified
 	 * @param int $curMapIndex
 	 * @param int $nextMapIndex
 	 * @param bool $isListModified
 	*/
-	function onMapListModified($curMapIndex, $nextMapIndex, $isListModified); 
+	function onMapListModified($curMapIndex, $nextMapIndex, $isListModified);
 	/**
 	 * Method called when player info changed
 	 * @param SPlayerInfo $playerInfo
@@ -173,16 +173,30 @@ interface Listener extends \ManiaLive\Event\Listener
 	 */
 	function onVoteUpdated($stateName, $login, $cmdName, $cmdParam);
 	/**
-	 * @param string 
+	 * @param string
 	 * @param string
 	 */
 	function onModeScriptCallback($param1, $param2);
-	
+
 	/**
 	 * Method called when the player in parameter has changed its allies
 	 * @param string $login
 	 */
 	function onPlayerAlliesChanged($login);
+
+	/**
+	 * You must answer this callback by calling SetScriptCloudVariables for given object.
+	 * @param string $type
+	 * @param int $id
+	 */
+	function onLoadData($type, $id);
+
+	/**
+	 * You must answer this callback by calling GetScriptCloudVariables for given object.
+	 * @param string $type
+	 * @param int $id
+	 */
+	function onSaveData($type, $id);
 }
 
 ?>
